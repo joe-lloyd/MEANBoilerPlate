@@ -1,0 +1,26 @@
+{
+  "name": "frontend",
+  "authors": [
+    "Joseph M. Lloyd <joe.lloyd.22.24@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "bourbon": "^4.2.6",
+    "modernizr": "^3.3.1",
+    "angular-ui-router": "^0.2.18"
+  }
+}

@@ -5,33 +5,55 @@ var Dawg = require('../models/dog');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    res.status(200).send("worked bitch");
+	res.status(200).send("worked bitch");
 });
 
 router.post('/register', function(req, res) {
 
 
 
-    User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
-        if (err) throw err;
+	User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
+		if (err) throw err;
 
-        passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
-        });
-    });
-    
+		passport.authenticate('local')(req, res, function () {
+			res.redirect('/');
+		});
+	});
+	
 });
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+router.post('/login', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+		if (err) {
+	  		return next(err);
+		}
+		if (!user) {
+	  		return res.status(401).json({
+			err: info
+	  	});
+	}
+	req.logIn(user, function(err) {
+		if (err) {
+			return res.status(500).json({
+		  		err: 'Could not log in user'
+			});
+	  	}
+	  	res.status(200).json({
+			status: 'Login successful!'
+			});
+		});
+	})(req, res, next);
 });
 
 router.get('/users', function(req, res){
-    res.json({users:{name: 'bob', age:6}, durp:{name: 'bob', age:6}});
+
+	User.find(function(err, users){
+		res.json(users); 
+	});
 });
 
 router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
+	res.status(200).send("pong!");
 });
 
 module.exports = router;

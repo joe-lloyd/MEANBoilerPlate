@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+// var session = require('express-session');
 
 var app        = express();                 // define our app using express
 

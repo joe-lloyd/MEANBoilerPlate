@@ -14,9 +14,9 @@ gulp.task('sass', function () {
 gulp.task('js', function(){
 	return gulp.src([ './app/main-module.js', './app/routes.js', './app/**/*.js'])
 	.pipe(concat('app.js'))
+	.pipe(gulp.dest('.'))
+	.pipe(uglify({mangle: false}))
 	.pipe(gulp.dest('.'));
-	// .pipe(uglify())
-	// .pipe(gulp.dest('.'));
 });
 
 gulp.task('default', function() {

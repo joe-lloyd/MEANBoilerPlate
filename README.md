@@ -1,5 +1,6 @@
 # MEANBoilerPlate
-seperate front and backend boiler plate for the mean stack
+Seperate front and backend boiler plate for the mean stack.
+To see latest changes check out the develop branch.
 
 # Backend
 

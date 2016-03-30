@@ -12,4 +12,10 @@ angular.module('storeHomeCtrl', ['storeHomeService']).controller('homeCtrl', [ '
 		});
 	};
 
+	$scope.check = function(){
+		homeFactory.check().then(function (res){
+			console.log('successful or something');
+		});
+	};
+
 }]);

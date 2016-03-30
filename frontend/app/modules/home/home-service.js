@@ -20,6 +20,12 @@ angular.module('storeHomeService', []).factory('homeFactory', [ '$http',  functi
 					'username': username
 				}
 			});
+		},
+		check: function(){
+			return $http({
+				method: 'GET',
+				url: 'http://localhost:3000/api/checkauth'				
+			});
 		}
 	};
 }]);

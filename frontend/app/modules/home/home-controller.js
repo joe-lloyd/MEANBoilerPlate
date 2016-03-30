@@ -9,6 +9,7 @@ angular.module('storeHomeCtrl', ['storeHomeService']).controller('homeCtrl', [ '
 	$scope.login = function(){
 		homeFactory.logMyAssIn($scope.data.username, $scope.data.password).then(function (data){
 			console.log('ass logged in');
+			console.log(data);
 		});
 	};
 

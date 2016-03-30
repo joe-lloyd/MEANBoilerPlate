@@ -9,7 +9,6 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
-// var session = require('express-session');
 
 var app        = express();                 // define our app using express
 
@@ -27,13 +26,23 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-var routes = require('./routes/index');
-
 // passport config
 var User = require('./models/user');
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
+passport.serializeUser(function(user, done) {
+	console.log('r u serial?');
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+  	console.log('no im not serial');
+    done(err, user);
+  });
+});
+
+var routes = require('./routes/index');
 
 app.use('/api', routes);
 

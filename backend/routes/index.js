@@ -44,7 +44,7 @@ router.post('/login', function(req, res, next) {
 	console.log(req.body);
 
 	passport.authenticate('local', function(err, user, info) {
-
+		
 		if (err) {
 	  		return next(err);
 		}
@@ -63,9 +63,10 @@ router.post('/login', function(req, res, next) {
 			  		err: 'Could not log in user'
 				});
 		  	}
-
+		  	console.log(passport.session());
 	  		res.status(200).json({
-				status: 'Login successful!'
+				status: 'Login successful!',
+				'lel': req.user
 			});
 
 		});
@@ -79,7 +80,10 @@ router.post('/login', function(req, res, next) {
 
 
 
-router.get('/checkauth', isAuthenticated, function(req, res){
+router.get('/checkauth',  function(req, res){
+
+	console.log(req.isAuthenticated());
+	req.isAuthenticated();
 
 	res.status(200).json({
 		status: 'Login successful!'

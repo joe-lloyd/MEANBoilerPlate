@@ -4,13 +4,25 @@ var User = require('../models/user');
 var Dawg = require('../models/dog');
 var router = express.Router();
 
+function isAuthenticated(req, res, next) {
+	console.log(user);
+    if (req.user.authenticated)
+        return next();
+
+    // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
+    res.redirect('/');
+}
+
 router.get('/', function (req, res) {
 	res.status(200).send("worked bitch");
 });
 
+
+
+
+
+
 router.post('/register', function(req, res) {
-
-
 
 	User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
 		if (err) throw err;
@@ -22,32 +34,66 @@ router.post('/register', function(req, res) {
 	
 });
 
+
+
+
+
+
 router.post('/login', function(req, res, next) {
 
 	console.log(req.body);
 
 	passport.authenticate('local', function(err, user, info) {
+
 		if (err) {
 	  		return next(err);
 		}
+
 		if (!user) {
 			console.log('immma bitch '+ user);
 	  		return res.status(401).json({
-			err: info
-	  	});
-	}
-	req.logIn(user, function(err) {
-		if (err) {
-			return res.status(500).json({
-		  		err: 'Could not log in user'
+				err: info
+		  	});
+		}
+
+		req.logIn(user, function(err) {
+
+			if (err) {
+				return res.status(500).json({
+			  		err: 'Could not log in user'
+				});
+		  	}
+
+	  		res.status(200).json({
+				status: 'Login successful!'
 			});
-	  	}
-	  	res.status(200).json({
-			status: 'Login successful!'
-			});
+
 		});
 	})(req, res, next);
 });
+
+
+
+
+
+
+
+
+router.get('/checkauth', isAuthenticated, function(req, res){
+
+	res.status(200).json({
+		status: 'Login successful!'
+	});
+
+});
+
+
+
+
+
+
+
+
 
 router.get('/users', function(req, res){
 

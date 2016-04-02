@@ -1,0 +1,62 @@
+$breakpoints: (
+	s:	0px,
+	xs: 480px,
+	sm: 768px,
+	md: 992px,
+	lg: 1200px
+	);
+
+$cols: 12;
+
+$gutter: 15px;
+
+@each $key, $value in $breakpoints{
+
+	@media screen and (min-width: $value){
+		.container{
+			max-width: $value;
+			display: block;
+			margin: 0 auto;
+			padding: 0 $gutter;
+
+			&:before, &:after {
+				display: table;
+				content: ' ';
+				box-sizing: border-box;
+			}
+
+			&:after {
+				clear: both;
+			}
+
+			@if ($key == 's') {
+				max-width: 100%;
+				width: 100%;
+			}
+
+			.row {
+				margin: 0 ($gutter * -1);
+
+				&:before, &:after {
+					display: table;
+					content: ' ';
+					box-sizing: border-box;
+				}
+
+				&:after {
+					clear: both;
+				}
+				
+				@for $i from 1 through $cols {
+
+					.col-#{$key}-#{$i} {
+						width: percentage($i / $cols);
+						float: left;
+						padding: 0 $gutter;
+						box-sizing: border-box;
+					}
+				}
+			}
+		}
+	}
+}

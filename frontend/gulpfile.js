@@ -12,7 +12,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('js', function(){
-	return gulp.src([ './app/main-module.js', './app/routes.js', './app/**/*.js'])
+	return gulp.src([ './app/main-module.js', './app/routes.js', './app/location.js', './app/**/*.js'])
 	.pipe(concat('app.js'))
 	.pipe(gulp.dest('.'))
 	.pipe(uglify({mangle: false}))

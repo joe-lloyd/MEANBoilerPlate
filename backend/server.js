@@ -10,9 +10,9 @@ var path 		= require('path');		// get path to help resolve concat urls
 var conf 	= require('./modules/serverConf.js')(app, express, __dirname);
 var user 	= require('./models/user.js');
 var auth 	= require('./modules/auth.js')(app, user);
-var routes 	= require('./routes/index');
+var routes 	= require('./routes/index')(app);
 
-app.use('/api', routes);
+// app.use('/api', routes);
 
 // database connection via a custom module
 var db = require('./modules/mongodb.js');	// getting the connectionto the database via a self made module

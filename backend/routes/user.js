@@ -1,20 +1,30 @@
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/user');
-var Dawg = require('../models/dog');
 var router = express.Router();
 
-function isAuthenticated(req, res, next) {
-	console.log(user);
-    if (req.user.authenticated)
-        return next();
+var isAuthenticated = function(req,res,next){
+	console.log(req.user);
+	if(req.user) {
+		return next();
+	} else {
+		return res.status(401).json({
+			error: 'User not authenticated'
+		});
+	}
+};
 
-    // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
-    res.redirect('/');
-}
+
+router.get('/checkauth', isAuthenticated, function(req, res){
+
+	res.status(200).json({
+		status: 'Login successful!'
+	});
+});
+
 
 router.get('/', function (req, res) {
-	res.status(200).send("worked bitch");
+	res.status(401).send('sent home');
 });
 
 router.post('/register', function(req, res) {
@@ -34,41 +44,45 @@ router.post('/login', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		
 		if (err) {
-	  		return next(err);
+			return next(err);
 		}
 
 		if (!user) {
 			console.log('immma bitch '+ user);
-	  		return res.status(401).json({
+			return res.status(401).json({
 				err: info
-		  	});
+			});
 		}
 
 		req.logIn(user, function(err) {
 
 			if (err) {
 				return res.status(500).json({
-			  		err: 'Could not log in user'
+					err: 'Could not log in user'
 				});
-		  	}
-		  	
-	  		res.status(200).json({
-				status: 'Login successful!',
-				session: req.session.passport.user
+			}
+			
+			res.status(200).json({
+				status: 'Login successful!'
 			});
 
 		});
 	})(req, res, next);
 });
 
-router.get('/checkauth',  function(req, res){
+router.get('/logout', function(req, res){
+	req.logOut();
 
-	req.isAuthenticated();
+	if (req.user) {
 
-	res.status(200).json({
-		status: 'Login successful!'
-	});
-
+		res.status(300).json({
+			status: 'error'
+		});
+	} else {
+		res.status(200).json({
+			status: 'logged out'
+		});
+	}
 });
 
 router.get('/users', function(req, res){
